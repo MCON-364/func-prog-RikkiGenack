@@ -1,7 +1,9 @@
 package edu.touro.las.mcon364.func_prog.exercises;
 
 import java.time.LocalDate;
+import java.time.LocalDate.*;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -40,7 +42,8 @@ public class FunctionalInterfaceExercises {
      */
     public static Supplier<Integer> currentYearSupplier() {
       // TODO
-        return null;
+        Supplier<Integer> integerSupplier = () -> LocalDate.now().getYear();
+        return integerSupplier;
     }
 
     /**
@@ -49,7 +52,7 @@ public class FunctionalInterfaceExercises {
      */
     public static Supplier<Integer> randomScoreSupplier() {
         // TODO
-        return null;
+        return () -> ThreadLocalRandom.current().nextInt(1,100);
     }
 
     // =========================================================
@@ -62,7 +65,7 @@ public class FunctionalInterfaceExercises {
      */
     public static Predicate<String> isAllUpperCase() {
         // TODO
-        return null;
+        return string -> isAllUpperCase().test(string);
     }
 
     /**
@@ -73,7 +76,8 @@ public class FunctionalInterfaceExercises {
      */
     public static Predicate<Integer> positiveAndDivisibleByFive() {
         // TODO
-        return null;
+        return  integer -> integer % 5 == 0 && integer > 0;
+
     }
 
     // =========================================================
@@ -88,7 +92,7 @@ public class FunctionalInterfaceExercises {
      */
     public static Function<Double, Double> celsiusToFahrenheit() {
         // TODO
-        return null;
+        return C -> C * 9/5 + 32;
     }
 
     /**
@@ -99,7 +103,17 @@ public class FunctionalInterfaceExercises {
      */
     public static Function<String, Integer> countVowels() {
         // TODO
-        return null;
+        return string -> {
+            int ctr= 0;
+
+            for (int i = 1; i < string.length(); i++) {
+                char curr = string.charAt(i);
+            if (curr=='a'  || curr =='e' || curr =='i' || curr =='o' || curr =='u') {
+             ctr ++;
+            }
+            }
+            return ctr;
+        };
     }
 
     // =========================================================
@@ -115,7 +129,7 @@ public class FunctionalInterfaceExercises {
      */
     public static Consumer<String> starPrinter() {
         // TODO
-        return null;
+        return string -> System.out.println("***" + string + "***");
     }
 
     /**
