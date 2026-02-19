@@ -2,6 +2,7 @@ package edu.touro.las.mcon364.func_prog.exercises;
 
 import java.time.LocalDate;
 import java.time.LocalDate.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
@@ -29,19 +30,19 @@ public class FunctionalInterfaceExercises {
 
     /**
      * 1) Create a Supplier that returns the current year.
-     *
+     * <p>
      * Hint:
      * You can get the current date using:
-     *     LocalDate.now()
-     *
+     * LocalDate.now()
+     * <p>
      * Then extract the year using:
-     *     getYear()
-     *
+     * getYear()
+     * <p>
      * Example (not the solution):
      *
      */
     public static Supplier<Integer> currentYearSupplier() {
-      // TODO
+        // TODO
         Supplier<Integer> integerSupplier = () -> LocalDate.now().getYear();
         return integerSupplier;
     }
@@ -52,7 +53,7 @@ public class FunctionalInterfaceExercises {
      */
     public static Supplier<Integer> randomScoreSupplier() {
         // TODO
-        return () -> ThreadLocalRandom.current().nextInt(1,100);
+        return () -> ThreadLocalRandom.current().nextInt(1, 100);
     }
 
     // =========================================================
@@ -65,18 +66,26 @@ public class FunctionalInterfaceExercises {
      */
     public static Predicate<String> isAllUpperCase() {
         // TODO
-        return string -> isAllUpperCase().test(string);
+        return string -> {
+            //  if there's any letter that is not upper case
+            if(string.chars().anyMatch(Character::isLetter)) {
+                if (string.chars().anyMatch(Character::isLowerCase))
+                    return false;
+            }
+            return true;
+
+        };
     }
 
     /**
      * 4) Create a Predicate that checks whether
      * a number is positive AND divisible by 5.
-     *
+     * <p>
      * Hint: consider chaining.
      */
     public static Predicate<Integer> positiveAndDivisibleByFive() {
         // TODO
-        return  integer -> integer % 5 == 0 && integer > 0;
+        return integer -> integer % 5 == 0 && integer > 0;
 
     }
 
@@ -87,30 +96,30 @@ public class FunctionalInterfaceExercises {
     /**
      * 5) Create a Function that converts
      * a temperature in Celsius to Fahrenheit.
-     *
+     * <p>
      * Formula: F = C * 9/5 + 32
      */
     public static Function<Double, Double> celsiusToFahrenheit() {
         // TODO
-        return C -> C * 9/5 + 32;
+        return C -> C * 9 / 5 + 32;
     }
 
     /**
      * 6) Create a Function that takes a String
      * and returns the number of vowels in it.
-     *
+     * <p>
      * Bonus: Make it case-insensitive.
      */
     public static Function<String, Integer> countVowels() {
         // TODO
         return string -> {
-            int ctr= 0;
+            int ctr = 0;
 
-            for (int i = 1; i < string.length(); i++) {
-                char curr = string.charAt(i);
-            if (curr=='a'  || curr =='e' || curr =='i' || curr =='o' || curr =='u') {
-             ctr ++;
-            }
+            for (int i = 0; i < string.length(); i++) {
+                String curr = String.valueOf(string.charAt(i));
+                if (curr.equalsIgnoreCase("a")|| curr.equalsIgnoreCase("e") || curr.equalsIgnoreCase("i") || curr.equalsIgnoreCase("o") || curr.equalsIgnoreCase("u")) {
+                    ctr++;
+                }
             }
             return ctr;
         };
@@ -123,13 +132,13 @@ public class FunctionalInterfaceExercises {
     /**
      * 7) Create a Consumer that prints a value
      * surrounded by "***"
-     *
+     * <p>
      * Example output:
      * *** Hello ***
      */
     public static Consumer<String> starPrinter() {
         // TODO
-        return string -> System.out.println("***" + string + "***");
+        return string -> System.out.println("*** " + string + " ***");
     }
 
     /**
@@ -138,7 +147,7 @@ public class FunctionalInterfaceExercises {
      */
     public static Consumer<Integer> printSquare() {
         // TODO
-        return null;
+        return n -> System.out.println(n * n);
     }
 
     // =========================================================
@@ -147,29 +156,56 @@ public class FunctionalInterfaceExercises {
 
     /**
      * 9) Apply:
-     *  - A Predicate
-     *  - A Function
-     *  - A Consumer
-     *
+     * - A Predicate
+     * - A Function
+     * - A Consumer
+     * <p>
      * Process the list as follows:
-     *  - Keep only strings longer than 3 characters
-     *  - Convert them to lowercase
-     *  - Print them
+     * - Keep only strings longer than 3 characters
+     * - Convert them to lowercase
+     * - Print them
      */
     public static void processStrings(List<String> values) {
         // TODO
+        List<String> updated = new ArrayList<>();
+        //predicate
+        Predicate<String> isLongerThan3 = s -> s.length() > 3;
+        //function
+        Function<String, String> lc = s -> s.toLowerCase();
+        //consumer
+        Consumer<String> printer = System.out::println;
+
+        for (String value : values) {
+            if (isLongerThan3.test(value)) {
+                String lcValue = lc.apply(value);
+                printer.accept(lcValue);
+            }
+        }
     }
 
     /**
      * 10) Apply:
-     *  - A Supplier
-     *  - A Predicate
-     *  - A Consumer
-     *
+     * - A Supplier
+     * - A Predicate
+     * - A Consumer
+     * <p>
      * Generate 5 random scores.
      * Print only those above 70.
      */
     public static void generateAndFilterScores() {
         // TODO
+
+        Supplier<Integer> randomScores = () -> ThreadLocalRandom.current().nextInt(1, 100);
+
+        Predicate<Integer> above70 = n -> n > 70;
+
+        Consumer<Integer> printer = System.out::println;
+
+        for (int i = 0; i < 5; i++) {
+            if (above70.test(randomScores.get())) {
+                printer.accept(randomScores.get());
+            }
+        }
+
     }
 }
