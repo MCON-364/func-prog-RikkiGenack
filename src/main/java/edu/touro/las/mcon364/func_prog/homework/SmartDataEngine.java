@@ -1,7 +1,9 @@
 package edu.touro.las.mcon364.func_prog.homework;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.*;
 
 /**
@@ -122,7 +124,7 @@ public class SmartDataEngine {
             case Integer i -> i*i;
             case String s  -> s.toUpperCase();
             case Double d  -> Math.round(d);
-            default -> "unsupported";
+            default -> "Unsupported";
         };
     }
 
@@ -205,7 +207,21 @@ public class SmartDataEngine {
 
     public static void runScoreProcessor() {
         // TODO
-        
+        Supplier<Integer> sup = () -> ThreadLocalRandom.current().nextInt(1, 100);
+
+        Predicate<Integer> filter = i -> i>50;
+
+        Function<Integer, String> func = i -> "Score: " + i;
+
+        Consumer<String> consumer = s -> System.out.println(s);
+
+
+        List<Integer> tenNums = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            tenNums.add(sup.get());
+        }
+        pipeline(tenNums, filter, func, consumer);
+
     }
 
 }
