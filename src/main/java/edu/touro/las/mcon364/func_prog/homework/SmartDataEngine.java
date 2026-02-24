@@ -45,7 +45,11 @@ public class SmartDataEngine {
             Consumer<R> consumer
     ) {
         // TODO
-
+        for (T element : input) {
+            if (filter.test(element)){
+                consumer.accept(mapper.apply(element));
+            }
+        }
     }
 
     // ============================================================
@@ -114,8 +118,12 @@ public class SmartDataEngine {
         //     case Double d  -> ...
         //     default -> ...
         // };
-
-        return null;
+        return switch (input){
+            case Integer i -> i*i;
+            case String s  -> s.toUpperCase();
+            case Double d  -> Math.round(d);
+            default -> "unsupported";
+        };
     }
 
     // ============================================================
@@ -153,7 +161,10 @@ public class SmartDataEngine {
 
     public static Function<String, Integer> buildStringLengthPipeline() {
         // TODO
-        return null;
+        Function<String, String> trimFunction = String::trim;
+        Function<String, String> toLowerCase = String::toLowerCase;
+        Function<String, Integer> length = String::length;
+        return trimFunction.andThen(toLowerCase).andThen(length);
     }
 
     // ============================================================
@@ -194,6 +205,7 @@ public class SmartDataEngine {
 
     public static void runScoreProcessor() {
         // TODO
+        
     }
 
 }
