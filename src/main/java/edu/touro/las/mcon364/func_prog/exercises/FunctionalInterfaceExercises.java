@@ -197,13 +197,15 @@ public class FunctionalInterfaceExercises {
 
         Supplier<Integer> randomScores = () -> ThreadLocalRandom.current().nextInt(1, 100);
 
-        Predicate<Integer> above70 = n -> n > 70;
+        Predicate<Integer> above70 = n -> n > 70 && n<=100;
 
         Consumer<Integer> printer = System.out::println;
 
+
         for (int i = 0; i < 5; i++) {
-            if (above70.test(randomScores.get())) {
-                printer.accept(randomScores.get());
+            int r = randomScores.get();
+            if (above70.test(r)) {
+                printer.accept(r);
             }
         }
 
