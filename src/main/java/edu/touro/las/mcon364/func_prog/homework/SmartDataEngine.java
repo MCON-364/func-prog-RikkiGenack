@@ -45,6 +45,7 @@ public class SmartDataEngine {
             Consumer<R> consumer
     ) {
         // TODO
+
     }
 
     // ============================================================
@@ -60,7 +61,11 @@ public class SmartDataEngine {
      */
     public static Optional<Double> safeDivide(double a, double b) {
         // TODO
-        return Optional.empty();
+        if (b == 0){
+            return Optional.empty();
+        }
+        double result = a/b;
+        return Optional.of(result);
     }
 
     /**
@@ -79,7 +84,8 @@ public class SmartDataEngine {
      */
     public static double processDivision(double a, double b) {
         // TODO
-        return 0;
+        Optional<Double> result = safeDivide(a, b);
+        return result.map(n -> n * 10).orElse(-1.0);
     }
 
     // ============================================================
